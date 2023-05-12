@@ -8,12 +8,9 @@
     ],
     "routes": [
       {
-        "src": "/.*",
+        "src": "/(.*)",
         "dest": "index.html"
       },
-      {
-        "src": "/quickstart/.*",
-        "dest": "/server.js"
-      }
+
     ]
   }
