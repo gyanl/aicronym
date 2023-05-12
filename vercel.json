@@ -11,6 +11,9 @@
         "src": "/.*",
         "dest": "index.html"
       },
-
+      {
+        "src": "/quickstart/.*",
+        "dest": "/server.js"
+      }
     ]
   }
