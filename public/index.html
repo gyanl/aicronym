@@ -1,298 +1,447 @@
 <!DOCTYPE html>
-
 <html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <meta charset="UTF-8" />
+    <title>Get Your Acronym Now</title>
+
+    <!-- import Work Sans from Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans:300,600" rel="stylesheet">
+    <style>
+        /* 3 Css variable for BGcolor, textcolor, accentcolor */
+        :root {
+            --AccentColor: #hsl(0, 0%, 100%);
+            --BackgroundColor: #hsl(0, 0%, 0%);
+            --TextColor: hsl(0, 0%, 0%);
+        }
+
+        body {
+            background-color: var(--BackgroundColor);
+            color: #fff;
+            font-family: "Work Sans", Helvetica, Arial, sans-serif;
+            font-size: 1.5em;
+            font-weight: 300;
+            line-height: 1.5;
+            margin: 0;
+            padding: 10%;
+            text-align: center;
+            transition: 1s;
+        }
+        #title {
+            position: absolute;
+            top: 100px;
+            left: 0;
+            right: 0;
+            font-size: 1em;
+            font-weight: 600;
+            margin: 20 auto 20px auto;
+            padding: 0;
+            text-align: center;
+            color: var(--AccentColor);
+            transform: .2s;
+        }
+        #main {
+            font-size: 4em;
+            font-weight: 300;
+            line-height: 1.1em;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            color: var(--BackgroundColor);
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            /* animation: glow 2s ease-in-out infinite alternate; */
+        }
+
+        /* define glow animation using box shadow */
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px var(--AccentColor), 0 0 20px var(--AccentColor), 0 0 40px var(--AccentColor);
+            }
+            to {
+                text-shadow: 0 0 20px var(--AccentColor), 0 0 40px var(--AccentColor), 0 0 20px var(--AccentColor);
+            }
+        }
+        
+        input{
+            background: rgba(255, 255, 255, .08);
+            border: none;
+            font-family: "Work Sans", Helvetica, Arial, sans-serif;
+            font-size: 1.2em;
+            padding: 16px 28px;
+            border-radius: 8px;
+            color: var(--TextColor);
+            /* box shadow of accentcolor */
+            box-shadow: 0 0 2px 2px var(--AccentColor);
+            text-align: center;
+        }
+
+        button{
+            font-family: "Work Sans", Helvetica, Arial, sans-serif;
+            background-color: var(--AccentColor);
+            border: none;
+            color: #fff;
+            font-size: 1em;
+            font-weight: 400;
+            margin: 28px 0 0 0;
+            padding: 12px 24px;
+            border-radius: 12px;
+            text-align: center;
+            transition: .1s;
+            border: 2px var(--AccentColor) solid;
+        }
+
+        button:hover{
+            background-color: var(--BackgroundColor)
+            color: #eee;
+            border: 2px var(--AccentColor) solid;
+        }
+        
+        button:active{
+            background-color: #000;
+            color: #ddd;
+            transform: translateY(4px);
+            transition: .2s;
+        }
+
+        .button-container{
+            position: absolute;
+            bottom: 10%;
+            left: 35%;
+            width: 30vw;
+            margin: auto;
+        }
+
+        #error{
+            font-size: .8em;
+            width: auto;
+            text: rgba(255, 255, 255, .8);
+            /* background: rgba(0, 0, 0, .8); */
+        }
+
+        .confetti{
+            background-color: var(--AccentColor);
+            z-index: -1;
+        }
 
 
-<title>Quickstarter</title>
+    /* class to animate from blurred element to unblurred element */
+    .blur-in {
+        -webkit-animation: blur-in 1s forwards;
+        -moz-animation: blur-in 1s forwards;
+        -o-animation: blur-in 1s forwards;
+        animation: blur-in 1s forwards;
+    }
 
-<link rel="stylesheet" href="style.css">
-<link rel="stylesheet" type="text/css" href="FluentSystemIcons-Regular.css">
+    .bounce-in{
+        -webkit-animation: bounce-in 1s ease-in-out;
+        -moz-animation: bounce-in 1s ease-in-out;
+        -o-animation: bounce-in 1s ease-in-out;
+        animation: bounce-in 1s ease-in-out;
+    }
 
+    /* blur-in definition for all browsers*/
+    @-webkit-keyframes blur-in {
+        0% {
+            -webkit-filter: blur(10px);
+            filter: blur(10px);
+            opacity: 0;
+            transform: translateY(10%);
+        }
+        100% {
+            -webkit-filter: blur(0);
+            filter: blur(0);
+            opacity: 1;
+            transform: translateY(0px);
+            color: var(--TextColor);           
+        }
+    }
+
+    @-webkit-keyframes bounce-in {
+        0% {
+            transform: translateY(10%);
+        }
+        100% {
+            transform: translateY(0px);
+        }
+    }
+
+    .ask{
+        display: none;
+    }
+
+    .generate{
+        display: none;
+    }
+
+
+
+
+            /* mobile only css */
+    @media only screen and (max-width: 600px) {
+
+            body {
+                padding: 25% 5% 0 5%;
+            }
+            #title{
+                top: 40px;
+            }
+            #main {
+                position: relative;
+                font-size: 2.5em;
+                top: auto;
+                left: auto;
+                transform: none;
+            }
+            button {
+
+            }
+            .button-container{
+                width: 80vw;
+                left: 10vw;
+        }
+            input{
+            font-size: .9em;
+            padding: 16px 18px 16px 18px;
+            width: 80vw;
+        }
+        }
+    </style>
 </head>
-<body class="wysihtml-supported">
-
-  <header class="shadow-8">
-
-    <nav>
-        <div topleft>
-            <i class="icon icon-ic_fluent_chevron_left_24_regular"></i>
-            <div class="docname">New Document</div>
-
+<body>
+    <div class="generate">
+        <div id="title">What is <span id="name-insert">Gyan</span>?</div>
+        <div id="main">The Machine is Thinking.</div>
+        <div class="button-container">
+            <button id="regenerate">Regenerate</button>
+            <button id="tweet">Tweet</button>
         </div>
-
-        <div topright>
-            <i class="icon icon-ic_fluent_phone_24_regular"></i>
-            <i class="icon icon-ic_fluent_lightbulb_24_regular"></i>
-            <i class="icon icon-ic_fluent_search_24_regular"></i>
-            <i class="icon icon-ic_fluent_share_24_regular"></i>
-            <i class="icon icon-ic_fluent_more_horizontal_24_regular"></i>
-        </div>
-    </nav>
-
-
-    <div id="toolbar" class="toolbar">
-      <div id="home-ribbon-items" class="displayflex">
-
-      <div class="block">
-        <a data-wysihtml-command="undo" href="javascript:;" unselectable="on">
-          <i class="rbn-icon icon-ic_fluent_arrow_undo_24_regular"></i>
-        </a>
-        <a data-wysihtml-command="redo" href="javascript:;" unselectable="on">
-          <i class="rbn-icon icon-ic_fluent_arrow_redo_24_regular"></i>
-        </a>
-      </div>
-
-      <div class="vertical-rule"></div>
-
-      <div class="block">
-
-          <a data-wysihtml-command="fontSizeStyle" href="javascript:;" unselectable="on">16</a>
-          <div data-wysihtml-dialog="fontSizeStyle" style="display: none;">
-            Size:
-            <input type="select" data-wysihtml-dialog-field="size" style="width: 60px;" value="">
-            <a data-wysihtml-dialog-action="save">OK</a>&nbsp;<a data-wysihtml-dialog-action="cancel">Cancel</a>
-          </div>
-
-        <a data-wysihtml-command="bold" title="CTRL+B" href="javascript:;" unselectable="on">
-          <i class="rbn-icon icon-ic_fluent_text_bold_24_regular"></i>
-        </a>
-
-        <a data-wysihtml-command="italic" title="CTRL+I" href="javascript:;" unselectable="on">
-          <i class="rbn-icon icon-ic_fluent_text_italic_24_regular"></i>
-        </a>
-        <a data-wysihtml-command="underline" title="CTRL+U" href="javascript:;" unselectable="on">
-          <i class="rbn-icon icon-ic_fluent_text_underline_24_regular"></i>
-        </a>
-      </div>
-
-      <div class="vertical-rule"></div>
-
-      <div class="block">
-        <a data-wysihtml-command="bgColorStyle" href="javascript:;" unselectable="on">
-          <i class="rbn-icon icon-ic_fluent_highlight_24_regular"></i>
-        </a>
-        <div data-wysihtml-dialog="bgColorStyle" style="display: none;">
-          Color:
-          <input type="color" data-wysihtml-dialog-field="color" value="#00ffff">
-          <a data-wysihtml-dialog-action="save">OK</a>&nbsp;<a data-wysihtml-dialog-action="cancel">Cancel</a>
-        </div>
-
-        <a data-wysihtml-command="foreColorStyle" href="javascript:;" unselectable="on">
-          <i class="rbn-icon icon-ic_fluent_text_color_24_regular"></i>
-        </a>
-        <div data-wysihtml-dialog="foreColorStyle" style="display: none;">
-          Color:
-          <input type="color" data-wysihtml-dialog-field="color" value="#000000">
-          <a data-wysihtml-dialog-action="save">OK</a>&nbsp;<a data-wysihtml-dialog-action="cancel">Cancel</a>
-        </div>
-      </div>
-
-      <div class="vertical-rule"></div>
-      
-      <!-- <div class="block">
-        <a data-wysihtml-command="createLink" href="javascript:;" unselectable="on">link</a>
-        <a data-wysihtml-command="removeLink" href="javascript:;" unselectable="on"><s>link</s></a>
-        <a data-wysihtml-command="insertImage" href="javascript:;" unselectable="on">image</a>
-        <a data-wysihtml-command="formatBlock" data-wysihtml-command-value="h1" href="javascript:;" unselectable="on">h1</a>
-        <a data-wysihtml-command="formatBlock" data-wysihtml-command-value="h2" href="javascript:;" unselectable="on">h2</a>
-        <a data-wysihtml-command="formatBlock" data-wysihtml-command-value="h3" href="javascript:;" unselectable="on">h3</a>
-        <a data-wysihtml-command="formatBlock" data-wysihtml-command-value="p" href="javascript:;" unselectable="on">p</a>
-        <a data-wysihtml-command="formatBlock" data-wysihtml-command-value="pre" href="javascript:;" unselectable="on">pre</a>
-        <a data-wysihtml-command="formatBlock" data-wysihtml-command-blank-value="true" href="javascript:;" unselectable="on" class="wysihtml-command-active">plaintext</a>
-        <a data-wysihtml-command="insertBlockQuote" href="javascript:;" unselectable="on">blockquote</a>
-        <a data-wysihtml-command="formatCode" data-wysihtml-command-value="language-html" href="javascript:;" unselectable="on">Code</a>
-      </div> -->
-      
-
-      
-      <div class="block">
-        <a data-wysihtml-command="insertUnorderedList" href="javascript:;" unselectable="on">
-          <i class="rbn-icon icon-ic_fluent_text_bullet_list_ltr_24_regular"></i>
-        </a>
-
-        <a data-wysihtml-command="insertOrderedList" href="javascript:;" unselectable="on">
-          <i class="rbn-icon icon-ic_fluent_text_number_list_ltr_24_regular"></i>
-        </a>
-
-        <a data-wysihtml-command="outdentList" href="javascript:;" unselectable="on">
-          <i class="rbn-icon icon-ic_fluent_text_indent_decrease_ltr_24_regular"></i>
-        </a>
-
-        <a data-wysihtml-command="indentList" href="javascript:;" unselectable="on">
-          <i class="rbn-icon icon-ic_fluent_text_indent_increase_ltr_24_regular"></i>
-        </a>
-      </div>
-
-      <div class="vertical-rule"></div>
-
-      <div class="block">
-        <a data-wysihtml-command="alignLeftStyle" href="javascript:;" unselectable="on">
-          <i class="rbn-icon icon-ic_fluent_text_align_left_24_regular"></i>
-        </a>
-
-        <a data-wysihtml-command="alignCenterStyle" href="javascript:;" unselectable="on">
-          <i class="rbn-icon icon-ic_fluent_text_align_center_24_regular"></i>
-        </a>
-
-        <a data-wysihtml-command="alignRightStyle" href="javascript:;" unselectable="on">
-          <i class="rbn-icon icon-ic_fluent_text_align_right_24_regular"></i>
-        </a>
-      </div>
-    
-
-      
-
-    
-    
-      <!--div class="block">
-        <a data-wysihtml-action="showSource">HTML</a>
-      </div-->
-
-
-
-    
-      <div data-wysihtml-dialog="createLink" style="display: none;">
-        <label>
-          Link:
-          <input data-wysihtml-dialog-field="href" value="http://">
-        </label>
-        <a data-wysihtml-dialog-action="save">OK</a>&nbsp;<a data-wysihtml-dialog-action="cancel">Cancel</a>
-      </div>
-      <div data-wysihtml-dialog="insertImage" style="display: none;">
-        <label>
-          Image:
-          <input data-wysihtml-dialog-field="src" value="http://">
-        </label>
-        <label>
-          Align:
-          <select data-wysihtml-dialog-field="className">
-            <option value="">default</option>
-            <option value="wysiwyg-float-left">left</option>
-            <option value="wysiwyg-float-right">right</option>
-          </select>
-        </label>
-        <a data-wysihtml-dialog-action="save">OK</a>&nbsp;<a data-wysihtml-dialog-action="cancel">Cancel</a>
-      </div>
     </div>
 
-
-    <div id="table-ribbon-items" class="displayflex">
-      <div class="block" data-wysihtml-hiddentools="table" style="display: none;">
-        <a data-wysihtml-command="mergeTableCells" href="javascript:;" unselectable="on">
-          <i class="rbn-icon icon-ic_fluent_table_cells_merge_24_regular"></i><span class="rbn-icon-label">Merge</span>
-        </a>
-        <a data-wysihtml-command="addTableCells" data-wysihtml-command-value="above" href="javascript:;" unselectable="on">
-          <i class="rbn-icon icon-ic_fluent_table_stack_above_24_regular"></i><span class="rbn-icon-label">Row Above</span>
-        </a>
-        <a data-wysihtml-command="addTableCells" data-wysihtml-command-value="below" href="javascript:;" unselectable="on">
-        <i class="rbn-icon icon-ic_fluent_table_stack_below_24_regular"></i><span class="rbn-icon-label">Row Below</span>
-       </a>
-        <a data-wysihtml-command="addTableCells" data-wysihtml-command-value="before" href="javascript:;" unselectable="on">
-          <i class="rbn-icon icon-ic_fluent_table_stack_left_24_regular"></i><span class="rbn-icon-label">Column Before</span>
-        </a>
-        <a data-wysihtml-command="addTableCells" data-wysihtml-command-value="after" href="javascript:;" unselectable="on">
-          <i class="rbn-icon icon-ic_fluent_table_stack_right_24_regular"></i><span class="rbn-icon-label">Column After</span>
-        </a>
-      
-        <a data-wysihtml-command="deleteTableCells" data-wysihtml-command-value="row" href="javascript:;" unselectable="on">
-          <i class="rbn-icon icon-ic_fluent_table_delete_row_24_regular"></i><span class="rbn-icon-label">Delete Row</span>
-        </a>
-        <a data-wysihtml-command="deleteTableCells" data-wysihtml-command-value="column" href="javascript:;" unselectable="on">
-          <i class="rbn-icon icon-ic_fluent_table_delete_column_24_regular"></i><span class="rbn-icon-label">Delete Column</span>
-        </a>
-      
-      </div>
+    <div class="ask">
+        <div id="title">Get Your Acronym Now</div>
+        <p>Type something to start generating your own acronym</p>
+        <input 
+        id="name-textbox"
+        type="text" 
+        placeholder="What's your name?"
+        >
+        <p></p>
+        <div class="button-container">
+            <button id="generate">Generate</button>
+        </div>
+        <p id="error"></p>
     </div>
+    <script>
 
-    <div class="ribbonTabsContainer">
-  <ul class="ribbonTabs" id="headerTabs">
-      <li class="tab active" id="home">Home</li>
-      <li class="tab" id="insert">Insert</li>
-      <li class="tab" id="draw">Draw</li>
-      <li class="tab" id="layout">Layout</li>
-      <li class="tab" id="review">Review</li>
-      <li class="tab" id="view">View</li>  
-  </ul>
+        // on page load, check if there is a name in the url and return it. Else return "0"
+        var name = window.location.href.split("?name=")[1] || "0";
+        var expand = [];
+        name = name.toUpperCase();
 
-  <ul class="ribbonTabs displaynone" id="headerTable">
-    <li class="tab" id="table">Table</li>
-  </ul> 
-</div>
+        // set name-insert to name
+        document.querySelector("#name-insert").innerHTML = name;
 
-  </header>
 
-<div class="editable">
+        // function parseJsonArray(jsonString) {
+        //     try {
+        //         const parsedArray = JSON.parse(jsonString);
+        //         return parsedArray;
+        //     } catch (error) {
+        //         console.error('Error parsing JSON:', error);
+        //         return [];
+        //     }
+        //     }
 
-    
-  <div id="editor" data-placeholder="Start typing..." class="wysihtml-sandbox wysihtml-editor" contenteditable="true">
-
-  </div>
-  <span class="quickstart">
-    <i class="sparkle icon-ic_fluent_sparkle_24_regular"></i>
-    <span class="qs-title">Quickstarter</span>
-    <p class="qs-body">What do you want to write about? Copilot will get you started.</p>
-    <input class="qs-promptbox" type="text" placeholder="What do you want to write about?">
-    <button id="submitPrompt"><i id="send" class="icon-ic_fluent_send_24_regular"></i><div id="thinking" class="displaynone lds-ripple"><div></div><div></div></div>
-    </button>
-  </span>
-</div>
-
-<!-- <h2>Events:</h2>
-<div id="log"><div>load</div></div> -->
-
-<!-- <small>powered by <a href="https://github.com/Voog/wysihtml" target="_blank">wysihtml</a>.</small> -->
-
-<script src="./test_files/wysihtml.js"></script>
-<script src="./test_files/wysihtml.all-commands.js"></script>
-<script src="./test_files/wysihtml.table_editing.js"></script>
-<script src="./test_files/wysihtml.toolbar.js"></script>
-
-<script src="./test_files/advanced_and_extended.js"></script>
-<script>
-  var editor = new wysihtml.Editor(document.getElementById('editor'), {
-    toolbar:document.getElementById('toolbar'),
-    parserRules:  wysihtmlParserRules
-  });
-
-  document.querySelectorAll('.tab').forEach(item => {
-    item.addEventListener('click', event => {
-        document.querySelectorAll('.tab').forEach(item => {
-            item.classList.remove('active');
-        });
-        event.target.classList.add('active');
-    })
-})
-
-// on clicking submitPrompt, execute function getPrompt
-document.getElementById('submitPrompt').addEventListener('click', getPrompt);
-
-async function getPromptResult(prompt) {
-        const response = await fetch('https://acronym.gyanl.com/quickstart/' + prompt);
+        // function to fetch acronyms from openai api
+        async function fetchAcronyms(name) {
+        // get the name from the inputbox
+        const response = await fetch('/acronyms/' + name);
         const data = await response.json();
-        console.log(data);
-        document.getElementById('editor').innerHTML += data;
-        document.getElementById('thinking').classList.add('displaynone');
-        document.getElementById('send').classList.remove('displaynone');
 
-  }
-
-// fn getPrompt
-function getPrompt() {
-
-  // remove class displaynone from thinking
-  document.getElementById('thinking').classList.remove('displaynone');
-  document.getElementById('send').classList.add('displaynone');
+        // convert data to array
+        expand = data;
+        console.log(expand);
+        updatePageWithNewAcronym();
+        }
 
 
-  // get value of qs-promptbox
-  var prompt = document.querySelector('.qs-promptbox').value;
-  console.log("Trying to fetch " + prompt);
-        // function to fetch result from openai api
-        getPromptResult(prompt);
-}
-  
-</script>
-</body></html>
+        // fn viewdecider makes "ask" class visible if there is no name in the url, else makes "answer" class visible
+        function viewDecider(name) {
+            if (name == "0") {
+                document.querySelector(".ask").style.display = "block";
+            } else {
+                document.querySelector(".generate").style.display = "block";
+                fetchAcronyms(name);
+                // apply blur-in animation to every character in the main div
+                var main = document.querySelector("#main");
+                var mainText = main.innerHTML;
+                main.innerHTML = "";
+                for (var i = 0; i < mainText.length; i++) {
+                    var span = document.createElement("span");
+                    span.innerHTML = mainText[i];
+                    span.classList.add("blur-in");
+                    main.appendChild(span);
+                }
+            }
+        }
+        
+        // run function viewdecider on page load
+        viewDecider(name);
+
+
+
+          var lastpicked = 0;
+          // function to take an array and return a random string
+        //   function randomString(array) {
+        //       var randomIndex = Math.floor(Math.random() * array.length);
+        //       lastpicked = randomIndex;
+        //       return array[randomIndex];
+        //   }
+
+          // fn to get an array and return a random string that is not the same as the last one. Use recursion to ensure that the same string is not returned twice in a row.
+            function randomString(array) {
+                var randomIndex = Math.floor(Math.random() * array.length);
+                if (randomIndex == lastpicked) {
+                    return randomString(array);
+                } else {
+                    lastpicked = randomIndex;
+                    return array[randomIndex];
+                }
+            }
+      
+          // function to insert string into div with id "main"
+          function insertString(string) {
+              var main = document.getElementById("main");
+              main.innerHTML = string;
+          }
+
+          // function to every word of a string into it's own span with an increasing animation delay
+            function animateString(string) {
+                var splitString = string.split(" ");
+                var newString = "";
+                for (var i = 0; i < splitString.length; i++) {
+                    newString += "<span class='blur-in' style='animation-delay: " + (i * 0.12) + "s'>" + splitString[i] + "</span> ";
+                }
+                return newString;
+            }
+
+
+            // function to generate a random HSL color
+            function generateColors() {
+                var hue = Math.floor(Math.random() * 360);
+
+                var saturation = 70;
+                var lightness = 45;
+                genAccent =  "hsl(" + (hue - 20) + ", " + saturation + "%, " + lightness + "%)";
+                document.documentElement.style.setProperty('--AccentColor', genAccent);
+
+                var saturation = 90;
+                var lightness = 5;
+                genBackground =  "hsl(" + (hue + 10) + ", " + saturation + "%, " + lightness + "%)";
+                document.documentElement.style.setProperty('--BackgroundColor', genBackground);  
+
+                var saturation = 70;
+                var lightness = 80;
+                genText =  "hsl(" + hue + ", " + saturation + "%, " + lightness + "%)";
+                document.documentElement.style.setProperty('--TextColor', genText);              
+            }
+
+            // fn to make title bounce in
+            function titleBounce() {
+                var title = document.getElementById("title");
+                title.classList.add("bounce-in");
+            }
+
+            // fn to remove bounce-in class from title
+            function removeBounce() {
+                var title = document.getElementById("title");
+                title.classList.remove("bounce-in");
+            }
+        
+          generateColors();
+          titleBounce();
+        //   insertString(animateString(randomString(expand)));
+
+          function updatePageWithNewAcronym() {
+            generateColors();
+            insertString(animateString(randomString(expand)));
+            removeBounce();
+            void document.getElementById("title").offsetWidth; // trigger reflow
+            titleBounce();
+          }
+
+            // on clicking button with id "regenerate", runs updatePageWithNewAcronym()
+            document.querySelector("#regenerate").addEventListener("click", function() {
+                updatePageWithNewAcronym();
+            });
+
+            // event listener for form that runs regenerate function
+            // document.querySelector("form").addEventListener("submit", function(e) {
+            //     regenerate();
+            // });
+        
+
+            // event listener for button with id "generate"
+            document.querySelector("#generate").addEventListener("click", function() {
+                var input = document.querySelector("#name-textbox").value;
+                if (input == "") {
+                    document.querySelector("#error").innerHTML = "You gotta put in a name, dude.";
+                } else {
+                    // navigate to new page with input passed in the url
+                    window.location.href = "?name=" + input;
+                }
+            });
+
+            // Auto-uppercase for input field with id "name-textbox"
+            document.querySelector("#name-textbox").addEventListener("keyup", function() {
+                document.querySelector("#name-textbox").value = document.querySelector("#name-textbox").value.toUpperCase();
+            });
+
+            // Take name and expansion and put into tweet
+            function shareTweet() {
+                var tweet = "https://twitter.com/intent/tweet?text=" + "I just found out that an AI model think " + name + " stands for " + expand[lastpicked] + ". Find out what AI thinks your name really stands for at gyanl.com/aicronym";
+                window.open(tweet, "_blank");
+            }
+
+            // event listener for button with id "twitter" that runs shareTweet()
+            document.querySelector("#tweet").addEventListener("click", function() {
+                shareTweet();
+            });
+
+            // take a screenshot of the page
+            function takeScreenshot() {
+                html2canvas(document.querySelector("#main")).then(function(canvas) {
+                    var link = document.createElement("a");
+                    link.download = "aicronym.png";
+                    link.href = canvas.toDataURL();
+                    link.click();
+                });
+            }
+
+                // generate confetti
+                setInterval(function() {
+                var x = Math.floor(Math.random() * window.innerWidth);
+                var y = Math.floor(Math.random() * window.innerHeight);
+                var size = Math.floor(Math.random() * 10);
+
+                var confetti = document.createElement("div");
+                confetti.classList.add("confetti");
+                confetti.style.position = "absolute";
+                confetti.style.left = x + "px";
+                confetti.style.top = y + "px";
+                confetti.style.width = size + "px";
+                confetti.style.height = size + "px";
+                confetti.style.borderRadius = "50%";
+                confetti.style.opacity = Math.random();
+                document.body.appendChild(confetti);
+                setTimeout(function() {
+                    confetti.remove();
+                }, 2000);
+            }, 100);
+      
+      </script>
+</body>
+</html>
