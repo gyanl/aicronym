@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.get('/quickstart/:prompt', async (req, res) => {
+app.get('/acronyms/:prompt', async (req, res) => {
   const prompt = req.params.prompt;
   try {
     const response = await openai.createCompletion({
@@ -43,8 +43,11 @@ app.get('/quickstart/:prompt', async (req, res) => {
     
     res.json(expansions);
   } catch (error) {
-    console.error(error);
-    res.status(500).send('An error occurred while processing your request.');
+    console.error('OpenAI API Error:', error);
+    res.status(500).json({
+      error: 'An error occurred while processing your request',
+      details: error.message
+    });
   }
 });
 

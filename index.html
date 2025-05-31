@@ -154,8 +154,8 @@
             border: 2px var(--AccentColor) solid;
         }
 
-        button:hover{
-            background-color: var(--BackgroundColor)
+        button:hover {
+            background-color: var(--BackgroundColor);
             color: #eee;
             border: 2px var(--AccentColor) solid;
         }
@@ -339,19 +339,34 @@
         
         // function to fetch acronyms from openai api
         async function fetchAcronyms(name) {
-        const response = await fetch('https://acronym.gyanl.com/acronyms/' + name);
-        const data = await response.json();
-        
-        // change loading div to display none
-        document.querySelector("#loading").style.display = "none";
-        // convert data to array
-        // append contents of 'data' array to 'expand' array without overwriting previous contents
-        expand = expand.concat(data);
-        expand = reverseArray(expand);
-        // write expand to local storage
-        // localStorage.setItem("expand", JSON.stringify(expand));
-        console.log(expand);
-        updatePageWithNewAcronym();
+            try {
+                document.querySelector("#error").innerHTML = ""; // Clear any previous errors
+                document.querySelector("#loading").style.display = "inline-block";
+                
+                const response = await fetch('/acronyms/' + name);
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Failed to fetch acronyms');
+                }
+                const data = await response.json();
+                
+                if (!Array.isArray(data) || data.length === 0) {
+                    throw new Error('No acronyms were generated. Please try again.');
+                }
+                
+                // change loading div to display none
+                document.querySelector("#loading").style.display = "none";
+                
+                // Store the new expansions
+                expand = data;
+                console.log('Received expansions:', expand);
+                updatePageWithNewAcronym();
+            } catch (error) {
+                console.error('Error fetching acronyms:', error);
+                document.querySelector("#loading").style.display = "none";
+                document.querySelector("#error").innerHTML = error.message || "Sorry, something went wrong. Please try again.";
+                document.querySelector("#main").innerHTML = ""; // Clear the main content on error
+            }
         }
 
 
@@ -501,8 +516,10 @@
                 var input = document.querySelector("#name-textbox").value;
                 if (input == "") {
                     document.querySelector("#error").innerHTML = "You gotta put in a name, dude.";
+                } else if (input.length > 10) {
+                    document.querySelector("#error").innerHTML = "Please keep it under 10 characters for best results.";
                 } else {
-                    // navigate to new page with input passed in the url
+                    document.querySelector("#error").innerHTML = ""; // Clear any previous errors
                     window.location.href = "?name=" + input;
                 }
             });
