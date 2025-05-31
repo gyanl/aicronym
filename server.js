@@ -28,8 +28,8 @@ app.get('/quickstart/:prompt', async (req, res) => {
   const prompt = req.params.prompt;
   try {
     const response = await openai.createCompletion({
-      model: "text-davinci-003",
-      prompt: `Write a title and 6 lines for the prompt ${nameToExpand}. Format the result as HTML.`,
+      model: "gpt-3.5-turbo-instruct",
+      prompt: `Generate 10 different creative acronym expansions for "${prompt}". Each expansion should be a complete sentence starting with the letter from the acronym. Format each as HTML. Return as a JSON array of strings.`,
       temperature: 0.7,
       max_tokens: 256,
       top_p: 1,
@@ -37,8 +37,11 @@ app.get('/quickstart/:prompt', async (req, res) => {
       presence_penalty: 0,
     });
 
-    const acros = response.data.choices[0].text;
-    res.json(acros);
+    // Parse the response text into an array of strings
+    const responseText = response.data.choices[0].text.trim();
+    const expansions = responseText.split('\n').filter(line => line.trim().length > 0);
+    
+    res.json(expansions);
   } catch (error) {
     console.error(error);
     res.status(500).send('An error occurred while processing your request.');
